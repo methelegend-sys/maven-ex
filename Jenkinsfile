@@ -46,7 +46,7 @@ pipeline{
                 echo "====++++executing Generate Artifacts++++===="
                 rtServer (
                     id: 'ArtifactoryLocal',
-                    url: 'http://localhost/artifactory',
+                    url: 'http://localhost:8081/artifactory',
                     // // If you're using username and password:
                     // username: 'user',
                     // password: 'password',
