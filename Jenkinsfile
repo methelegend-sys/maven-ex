@@ -92,7 +92,7 @@ pipeline{
                     pom: 'pom.xml',
                     goals: 'deploy',
                     deployerId: "MAVEN_DEPLOYER",
-                    resolverId: "MAVEN_RESOLVER"
+                    // resolverId: "MAVEN_RESOLVER"
                 )
                 rtPublishBuildInfo (
                     serverId: "ARTIFACTORY_SERVER"
