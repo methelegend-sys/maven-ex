@@ -45,7 +45,7 @@ pipeline{
             steps{
                 echo "====++++executing Generate Artifacts++++===="
                 rtServer (
-                    id: 'Artifactory',
+                    id: 'ArtifactoryLocal',
                     url: 'http://localhost/artifactory',
                     // // If you're using username and password:
                     // username: 'user',
@@ -57,6 +57,12 @@ pipeline{
                     // Configure the connection timeout (in seconds).
                     // The default value (if not configured) is 300 seconds:
                     timeout: 300
+                )
+                rtMavenDeployer (
+                    id: 'ProjectDeployer'
+                    releaseRepo: 'local'
+                    snapshotRepo: 'local'
+                    serverId: 'ArtifactoryLocal'
                 )
             }
             post{

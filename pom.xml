@@ -28,7 +28,7 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
+    <!-- <distributionManagement>
         <repository>
             <id>central</id>
             <name>b002440bed12-releases</name>
@@ -39,7 +39,7 @@
             <name>b002440bed12-snapshots</name>
             <url>http://localhost:8081/artifactory/local</url>
         </snapshotRepository>
-    </distributionManagement>
+    </distributionManagement> -->
 
     <build>
         <pluginManagement>
