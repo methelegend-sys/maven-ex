@@ -88,7 +88,7 @@ pipeline{
             steps{
                 echo "====++++executing Upload Artifacts++++===="
                 rtMavenRun (
-                    tool: MAVEN_TOOL, // Tool name from Jenkins configuration
+                    tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'deploy',
                     deployerId: "MAVEN_DEPLOYER",
