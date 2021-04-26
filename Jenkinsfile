@@ -5,9 +5,9 @@ pipeline{
     //     jdk 'jdk8'
     // }
     stages{
-        stage("Initialize"){
+        stage("Clone"){
             steps{
-                echo "========executing Initialize========"
+                echo "========executing Clone========"
                 git 'https://github.com/ankur198/maven-example'
             }
             post{
@@ -15,11 +15,54 @@ pipeline{
                     echo "========always========"
                 }
                 success{
-                    echo "========Initialize executed successfully========"
+                    echo "========Clone executed successfully========"
                 }
                 failure{
-                    echo "========Initialize execution failed========"
+                    echo "========Clone execution failed========"
                 }
+            }
+        }
+        stage("Initialize Artifactory"){
+            steps{
+                echo "====++++executing Initialize Artifactory++++===="
+                rtServer (
+                    id: 'ARTIFACTORY_SERVER',
+                    url: 'http://localhost:8081/artifactory',
+                    // // If you're using username and password:
+                    // username: 'user',
+                    // password: 'password',
+                    // If you're using Credentials ID:
+                    credentialsId: 'artifactoryLocal',
+                    // // If Jenkins is configured to use an http proxy, you can bypass the proxy when using this Artifactory server:
+                    // bypassProxy: true,
+                    // Configure the connection timeout (in seconds).
+                    // The default value (if not configured) is 300 seconds:
+                    timeout: 300
+                )
+                rtMavenDeployer (
+                    id: 'MAVEN_DEPLOYER',
+                    releaseRepo: 'local',
+                    snapshotRepo: 'local',
+                    serverId: 'ARTIFACTORY_SERVER'
+                )
+                rtMavenResolver (
+                    id: "MAVEN_RESOLVER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "local",
+                    snapshotRepo: "local"
+                )
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Initialize Artifactory executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Initialize Artifactory execution failed++++===="
+                }
+        
             }
         }
         stage("Build"){
@@ -41,28 +84,18 @@ pipeline{
         
             }
         }
-        stage("Generate Artifacts"){
+        stage("Upload Artifacts"){
             steps{
-                echo "====++++executing Generate Artifacts++++===="
-                rtServer (
-                    id: 'ArtifactoryLocal',
-                    url: 'http://localhost:8081/artifactory',
-                    // // If you're using username and password:
-                    // username: 'user',
-                    // password: 'password',
-                    // If you're using Credentials ID:
-                    credentialsId: 'artifactoryLocal',
-                    // // If Jenkins is configured to use an http proxy, you can bypass the proxy when using this Artifactory server:
-                    // bypassProxy: true,
-                    // Configure the connection timeout (in seconds).
-                    // The default value (if not configured) is 300 seconds:
-                    timeout: 300
+                echo "====++++executing Upload Artifacts++++===="
+                rtMavenRun (
+                    // tool: MAVEN_TOOL, // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'deploy',
+                    deployerId: "MAVEN_DEPLOYER",
+                    resolverId: "MAVEN_RESOLVER"
                 )
-                rtMavenDeployer (
-                    id: 'ProjectDeployer',
-                    releaseRepo: 'local',
-                    snapshotRepo: 'local',
-                    serverId: 'ArtifactoryLocal'
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
                 )
             }
             post{
@@ -70,10 +103,10 @@ pipeline{
                     echo "====++++always++++===="
                 }
                 success{
-                    echo "====++++Generate Artifacts executed successfully++++===="
+                    echo "====++++Upload Artifacts executed successfully++++===="
                 }
                 failure{
-                    echo "====++++Generate Artifacts execution failed++++===="
+                    echo "====++++Upload Artifacts execution failed++++===="
                 }
         
             }
