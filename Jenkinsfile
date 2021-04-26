@@ -87,13 +87,13 @@ pipeline{
         stage("Upload Artifacts"){
             steps{
                 echo "====++++executing Upload Artifacts++++===="
-                // rtMavenRun (
-                //     tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
-                //     pom: 'pom.xml',
-                //     goals: 'install',
-                //     deployerId: "MAVEN_DEPLOYER",
-                //     // resolverId: "MAVEN_RESOLVER"
-                // )
+                rtMavenRun (
+                    tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER",
+                    // resolverId: "MAVEN_RESOLVER"
+                )
                 rtPublishBuildInfo (
                     serverId: "ARTIFACTORY_SERVER"
                 )
