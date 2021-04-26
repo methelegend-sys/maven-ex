@@ -59,9 +59,9 @@ pipeline{
                     timeout: 300
                 )
                 rtMavenDeployer (
-                    id: 'ProjectDeployer'
-                    releaseRepo: 'local'
-                    snapshotRepo: 'local'
+                    id: 'ProjectDeployer',
+                    releaseRepo: 'local',
+                    snapshotRepo: 'local',
                     serverId: 'ArtifactoryLocal'
                 )
             }
