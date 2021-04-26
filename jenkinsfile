@@ -1,0 +1,54 @@
+pipeline{
+    agent{
+        label "any"
+    }
+    stages{
+        stage("Clone"){
+            steps{
+                echo "========executing Clone========"
+                git 'https://github.com/ankur198/maven-example'
+
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========Clone executed successfully========"
+                }
+                failure{
+                    echo "========Clone execution failed========"
+                }
+            }
+        }
+        stage("Build"){
+            steps{
+                echo "====++++executing Build++++===="
+                sh "mvn clean install"
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Build executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Build execution failed++++===="
+                }
+        
+            }
+        }
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}
