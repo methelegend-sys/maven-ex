@@ -1,21 +1,28 @@
 pipeline{
     agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
+    }
     stages{
-        stage("Clone"){
+        stage("Initialize"){
             steps{
-                echo "========executing Clone========"
+                echo "========executing Initialize========"
                 git 'https://github.com/ankur198/maven-example'
-
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
             }
             post{
                 always{
                     echo "========always========"
                 }
                 success{
-                    echo "========Clone executed successfully========"
+                    echo "========Initialize executed successfully========"
                 }
                 failure{
-                    echo "========Clone execution failed========"
+                    echo "========Initialize execution failed========"
                 }
             }
         }
