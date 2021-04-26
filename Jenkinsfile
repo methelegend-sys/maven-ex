@@ -25,9 +25,8 @@ pipeline{
         stage("Build"){
             steps{
                 echo "====++++executing Build++++===="
-                script {
-                    "mvn clean install package"
-                }
+                bat "mvn clean install package"
+                
             }
             post{
                 always{
