@@ -1,9 +1,5 @@
 pipeline{
     agent any
-    // tools {
-    //     maven 'MAVEN_TOOL'
-    //     jdk 'jdk8'
-    // }
     stages{
         stage("Clone"){
             steps{
@@ -28,15 +24,7 @@ pipeline{
                 rtServer (
                     id: 'ARTIFACTORY_SERVER',
                     url: 'http://localhost:8081/artifactory',
-                    // // If you're using username and password:
-                    // username: 'user',
-                    // password: 'password',
-                    // If you're using Credentials ID:
                     credentialsId: 'artifactoryLocal',
-                    // // If Jenkins is configured to use an http proxy, you can bypass the proxy when using this Artifactory server:
-                    // bypassProxy: true,
-                    // Configure the connection timeout (in seconds).
-                    // The default value (if not configured) is 300 seconds:
                     timeout: 300
                 )
                 rtMavenDeployer (
@@ -45,12 +33,12 @@ pipeline{
                     snapshotRepo: 'local',
                     serverId: 'ARTIFACTORY_SERVER'
                 )
-                rtMavenResolver (
-                    id: "MAVEN_RESOLVER",
-                    serverId: "ARTIFACTORY_SERVER",
-                    releaseRepo: "local",
-                    snapshotRepo: "local"
-                )
+                // rtMavenResolver (
+                //     id: "MAVEN_RESOLVER",
+                //     serverId: "ARTIFACTORY_SERVER",
+                //     releaseRepo: "local",
+                //     snapshotRepo: "local"
+                // )
             }
             post{
                 always{
@@ -68,7 +56,13 @@ pipeline{
         stage("Build"){
             steps{
                 echo "====++++executing Build++++===="
-                bat "mvn clean install package"
+                rtMavenRun (
+                    tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER",
+                    // resolverId: "MAVEN_RESOLVER"
+                )
                 
             }
             post{
@@ -87,13 +81,6 @@ pipeline{
         stage("Upload Artifacts"){
             steps{
                 echo "====++++executing Upload Artifacts++++===="
-                rtMavenRun (
-                    tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    deployerId: "MAVEN_DEPLOYER",
-                    // resolverId: "MAVEN_RESOLVER"
-                )
                 rtPublishBuildInfo (
                     serverId: "ARTIFACTORY_SERVER"
                 )
