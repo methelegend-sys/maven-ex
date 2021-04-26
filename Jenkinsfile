@@ -1,9 +1,9 @@
 pipeline{
     agent any
-    tools {
-        maven 'MAVEN_TOOL'
-        // jdk 'jdk8'
-    }
+    // tools {
+    //     maven 'MAVEN_TOOL'
+    //     jdk 'jdk8'
+    // }
     stages{
         stage("Clone"){
             steps{
@@ -87,13 +87,13 @@ pipeline{
         stage("Upload Artifacts"){
             steps{
                 echo "====++++executing Upload Artifacts++++===="
-                rtMavenRun (
-                    tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'deploy',
-                    deployerId: "MAVEN_DEPLOYER",
-                    // resolverId: "MAVEN_RESOLVER"
-                )
+                // rtMavenRun (
+                //     tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
+                //     pom: 'pom.xml',
+                //     goals: 'install',
+                //     deployerId: "MAVEN_DEPLOYER",
+                //     // resolverId: "MAVEN_RESOLVER"
+                // )
                 rtPublishBuildInfo (
                     serverId: "ARTIFACTORY_SERVER"
                 )
