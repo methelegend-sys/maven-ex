@@ -24,7 +24,7 @@ pipeline{
                 rtServer (
                     id: 'artifactory-server',
                     url: 'http://localhost:8081/artifactory',
-                    credentialsId: 'artifactoryLocal',
+                    credentialsId: 'artifactory-server',
                     timeout: 300
                 )
                 rtMavenDeployer (
