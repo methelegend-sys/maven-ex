@@ -57,7 +57,7 @@ pipeline{
             steps{
                 echo "====++++executing Build++++===="
                 rtMavenRun (
-                    tool: "Manve 3", // Tool name from Jenkins configuration
+                    tool: "Manve3", // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
