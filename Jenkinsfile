@@ -31,7 +31,7 @@ pipeline{
                     id: 'MAVEN_DEPLOYER',
                     releaseRepo: 'demo-demoproject',
                     snapshotRepo: 'demo-demoproject',
-                    serverId: 'artifactory-server'
+                    serverId: 'Artifactory-Server'
                 )
                 // rtMavenResolver (
                 //     id: "MAVEN_RESOLVER",
