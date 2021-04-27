@@ -22,9 +22,9 @@ pipeline{
             steps{
                 echo "====++++executing Initialize Artifactory++++===="
                 rtServer (
-                    id: 'artifactory-server',
+                    id: 'Artifactory-Server',
                     url: 'http://localhost:8081/artifactory',
-                    credentialsId: 'artifactory-server',
+                    credentialsId: 'ArtifactoryLocal',
                     timeout: 300
                 )
                 rtMavenDeployer (
@@ -59,7 +59,7 @@ pipeline{
                 rtMavenRun (
                     tool: "Maven_3", // Tool name from Jenkins configuration
                     pom: 'pom.xml',
-                    goals: '-X clean install',
+                    goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
                     // resolverId: "MAVEN_RESOLVER"
                 )
@@ -82,7 +82,7 @@ pipeline{
             steps{
                 echo "====++++executing Upload Artifacts++++===="
                 rtPublishBuildInfo (
-                    serverId: "artifactory-server"
+                    serverId: "Atifactory-Server"
                 )
             }
             post{
