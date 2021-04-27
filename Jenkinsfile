@@ -82,7 +82,7 @@ pipeline{
             steps{
                 echo "====++++executing Upload Artifacts++++===="
                 rtPublishBuildInfo (
-                    serverId: "Atifactory-Server"
+                    serverId: "Artifactory-Server"
                 )
             }
             post{
