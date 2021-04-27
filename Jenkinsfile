@@ -29,8 +29,8 @@ pipeline{
                 )
                 rtMavenDeployer (
                     id: 'MAVEN_DEPLOYER',
-                    releaseRepo: 'local',
-                    snapshotRepo: 'local',
+                    releaseRepo: 'demo-demoproject',
+                    snapshotRepo: 'demo-demoproject',
                     serverId: 'artifactory-server'
                 )
                 // rtMavenResolver (
@@ -82,7 +82,7 @@ pipeline{
             steps{
                 echo "====++++executing Upload Artifacts++++===="
                 rtPublishBuildInfo (
-                    serverId: "ARTIFACTORY_SERVER"
+                    serverId: "artifactory-server"
                 )
             }
             post{
