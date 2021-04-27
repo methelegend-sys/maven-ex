@@ -22,7 +22,7 @@ pipeline{
             steps{
                 echo "====++++executing Initialize Artifactory++++===="
                 rtServer (
-                    id: 'ARTIFACTORY_SERVER',
+                    id: 'artifactory-server',
                     url: 'http://localhost:8081/artifactory',
                     credentialsId: 'artifactoryLocal',
                     timeout: 300
@@ -31,7 +31,7 @@ pipeline{
                     id: 'MAVEN_DEPLOYER',
                     releaseRepo: 'local',
                     snapshotRepo: 'local',
-                    serverId: 'ARTIFACTORY_SERVER'
+                    serverId: 'artifactory-server'
                 )
                 // rtMavenResolver (
                 //     id: "MAVEN_RESOLVER",
@@ -57,7 +57,7 @@ pipeline{
             steps{
                 echo "====++++executing Build++++===="
                 rtMavenRun (
-                    tool: "MAVEN_TOOL", // Tool name from Jenkins configuration
+                    tool: "Manve 3", // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
